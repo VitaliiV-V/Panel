@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<div class="card1">
+    <h2><i class="fa-solid fa-gear"></i> Panel</h2>
+</div>
+
+<div class="card2">
+
+    <div class="head">
+        <h2>Main</h2>
+        <button class = "theme" onclick="toggleTheme()"> <i id="themeIcon" class="fa-solid fa-moon"></i></button>
+    </div>
+
+    <div class="monitor">
+         <div class="cpubox">
+             <div class="cpu">
+                  <div class="cpulogo">
+                    <i class="fa-solid fa-microchip"></i>
+                  </div>
+
+                  <div class="cpudata">
+                      <i style="font-size: 20px;">CPU</i>
+                      <i class = "cpuval" style="font-size: 20px;">%</i>
+                  </div>
+
+             </div>
+             <div class="cpubar">
+                 <div class="cpubar2">
+                    </div>
+             </div>
+         </div>
+
+
+         <div class="rambox">
+             <div class="ram">
+                 <div class="ramlogo">
+                    <i class="fa-solid fa-memory"></i>
+                 </div>
+                 <div class="ramdata">
+                    <i style="font-size: 20px;">RAM</i>
+                    <i class = "ramval" style="font-size: 20px;">%</i>
+                 </div>
+
+             </div>
+             <div class="rambar">
+                 <div class="rambar2">
+                    </div>
+             </div>
+         </div>
+
+         <div class="diskbox">
+             <div class="disk">
+                 <div class="disklogo">
+                    <i class="fa-solid fa-hard-drive"></i>
+                 </div>
+                 <div class="diskdata">
+                    <i style="font-size: 20px;">DISK</i>
+                    <i class = "diskval" style="font-size: 20px;">%</i>
+                 </div>
+
+             </div>
+             <div class="diskbar">
+                 <div class="diskbar2">
+                    </div>
+             </div>
+         </div>
+
+         <div class="tempbox">
+             <div class="temp">
+                 <div class="templogo">
+                    <i class="fa-solid fa-temperature-half"></i>
+                 </div>
+                 <div class="tempdata">
+                    <i style="font-size: 20px;">TEMP</i>
+                    <i class = "tempval" style="font-size: 20px;">%</i>
+                 </div>
+             </div>
+             <div class="tempbar">
+                 <div class="tempbar2">
+                    </div>
+             </div>
+         </div>
+    </div>
+
+     <div class="card3">
+         <div class="graph">
+             <strong><i style="font-size: 20px;">Use of resources</i></strong>
+             <!--<canvas class="chart" id="myChart" style="height:90%;"></canvas>-->
+         </div>
+
+         <div class="power">
+            <strong><i style="font-size: 20px;">System Management</i></strong>
+             <div class="btn-grid">
+                <button class="reboot"><i class="fa-solid fa-rotate-right"></i> Reboot</button>
+                <button class="poweroff"><i class="fa-solid fa-power-off"></i> Power Off</button>
+                <button class="suspend"><i class="fa-solid fa-moon"></i> Suspend</button>
+                <button class="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+            </div>
+         </div>
+     </div>
+
+     <div class="card4">
+         <div class="info">
+            <strong><i style="font-size: 20px;">System Information</i></strong>
+             <div class="host">
+                 <span class="hostname">Hostname</span>
+                 <i class="valuehost">penis</i>
+             </div>
+             <div class="host">
+                 <span class="OS">OS</span>
+                 <span class="valueos">penis</span>
+             </div>
+             <div class="host">
+                 <span class="Kernel">Kernel</span>
+                 <span class="valuekernel">penis</span>
+             </div>
+             <div class="host">
+                 <span class="Up">Up time</span>
+                 <span class="valuetime">penis</span>
+             </div>
+             <div class="host">
+                 <span class="IP">Current IP</span>
+                 <span class="valueip">penis</span>
+             </div>
+         </div>
+     </div>
+
+</div>
+
+
+<p id="result"></p>
+
+<script src="/static/app.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>
