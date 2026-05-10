@@ -78,10 +78,6 @@ def power_off():
         "message": "ok"
     }
 
-@app.get("/api/click")
-def click():
-    return {"message": "Кнопка нажата с сервера 🚀"}
-
 def get_cpu_temp():
     temps = psutil.sensors_temperatures()
 
