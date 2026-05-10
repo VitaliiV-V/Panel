@@ -1,5 +1,4 @@
 import uvicorn
-from fastapi import FastAPI
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 import psutil
@@ -9,8 +8,32 @@ import time
 import datetime
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
+from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi.security import HTTPBasic, HTTPBasicCredentials
 import subprocess
+import secrets
+from dotenv import load_dotenv
+import os
 
+
+load_dotenv()
+
+security = HTTPBasic()
+
+USERNAME = os.getenv("USERNAME")
+PASSWORD = os.getenv("PASSWORD")
+
+def check_auth(credentials: HTTPBasicCredentials = Depends(security)):
+    correct_user = secrets.compare_digest(credentials.username, USERNAME)
+    correct_pass = secrets.compare_digest(credentials.password, PASSWORD)
+
+    if not (correct_user and correct_pass):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Unauthorized",
+            headers={"WWW-Authenticate": "Basic"},
+        )
+    return True
 
 
 app = FastAPI()
@@ -30,7 +53,7 @@ app.add_middleware(
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.get("/main")
-def index():
+def index(auth: bool = Depends(check_auth)):
     return FileResponse("static/index.html")
 
 @app.get("/")
