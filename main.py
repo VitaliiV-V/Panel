@@ -94,21 +94,130 @@ def metrics():
         "disk" : psutil.disk_usage('/').percent
     }
 
+def query(s):
+    penis = subprocess.run(
+        s,
+        capture_output=True,
+        text=True
+    )
+    return penis.stdout
+
 @app.get("/info")
 def metrics():
     boot_time = psutil.boot_time()
     uptime_seconds = int(time.time() - boot_time)
+    x1 =  str(query(['playerctl', 'position'])) * 100
+    x2 = ''
+    for u in x1:
+        if u == '\n':
+            break
+        x2 += u
+    x2 = float(x2)
+    x3 =  str(query(['playerctl', 'metadata', '--format', '{{ mpris:length / 1000000 }}'])) * 100
+    x4 = ''
+    for u in x3:
+        if u == '\n':
+            break
+        x4 += u
+    x4 = float(x4)
+    print(x2 / x4 * 100)
+    x5 = str(query(['wpctl', 'get-volume', '@DEFAULT_AUDIO_SINK@']).split(' ')[1][:-1])
+    print(x5)
     return {
         "hostname": socket.gethostname(),
         "os": platform.system(),
         "kernel": platform.release(),
-        "uptime": str(datetime.timedelta(seconds=uptime_seconds))
+        "uptime": str(datetime.timedelta(seconds=uptime_seconds)),
+        "track" : str(query(['playerctl', 'metadata', '--format', '{{artist}} - {{title}} | {{album}}'])),
+        "status" : str(query(['playerctl', 'status'])),
+        "progress" : x2 / x4 * 100,
+        "position" : str(query(['playerctl', 'metadata', '--format', '{{ duration(position) }}'])),
+        "length" : str(query([ 'playerctl', 'metadata', '--format', '{{ duration(mpris:length) }}'])),
+        "volume" : float(x5) * 100
     }
 
-if __name__ == "__main__":
-    uvicorn.run(
-        "main:app",
-        host="10.42.0.1",
-        port=8000,
-        reload=False
+@app.get("/playpause")
+def play_pause():
+    status = subprocess.run(
+        ['playerctl', 'status'],
+        capture_output=True,
+        text=True
     )
+    if status.stdout == "Playing\n":
+        status = subprocess.run(
+            ['playerctl', 'pause'],
+            capture_output=True,
+            text=True
+        )
+        return {
+            "status": "Paused"
+        }
+    else:
+        status = subprocess.run(
+            ['playerctl', 'play'],
+            capture_output=True,
+            text=True
+        )
+        return {
+            "status": "Playing\n"
+        }
+
+@app.get("/playpause")
+def play_pause():
+    status = subprocess.run(
+        ['playerctl', 'status'],
+        capture_output=True,
+        text=True
+    )
+    status = subprocess.run(
+        ['playerctl', 'play-pause'],
+        capture_output=True,
+        text=True
+    )
+    if status.stdout == "Playing\n":
+        return {
+            "status": "Paused"
+        }
+    else:
+        return {
+            "status": "Playing\n"
+        }
+
+
+@app.get("/next")
+def next():
+    status = subprocess.run(
+        ['playerctl', 'next'],
+        capture_output=True,
+        text=True
+    )
+    return {
+        "message": "ok"
+    }
+
+@app.get("/previous")
+def previous():
+    status = subprocess.run(
+        ['playerctl', 'previous'],
+        capture_output=True,
+        text=True
+    )
+    return {
+        "message": "ok"
+    }
+
+
+if __name__ == "__main__":
+    while True:
+        try:
+            uvicorn.run(
+                "main:app",
+                host="10.42.0.1",
+                port=8000,
+                reload=False
+            )
+            break
+        except Exception as e:
+            print(f"Ошибка запуска: {e}")
+            print("Повтор через 3 секунды...")
+            time.sleep(3)

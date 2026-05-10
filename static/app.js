@@ -16,14 +16,35 @@ async function updateStats() {
     document.querySelector(".valueos").textContent = data2.os;
     document.querySelector(".valuekernel").textContent = data2.kernel;
     document.querySelector(".valuetime").textContent = data2.uptime;
+    document.querySelector(".trackname").textContent = data2.track;
+    document.querySelector(".position").textContent = data2.position;
+    document.querySelector(".length").textContent = data2.length;
+    document.querySelector(".vol").textContent = data2.volume + '%';
+
+
+    if(data2.status == "Playing\n") {
+        document.querySelector(".btn-play").innerHTML =
+          '<i class="fas fa-pause" style="font-size: 40px; padding-right: 5px;"></i>';   } else {
+        document.querySelector(".btn-play").innerHTML =
+          '<i class="fas fa-play" style="font-size: 40px;"></i>';
+    }
+    const slider = document.querySelector(".slider");
+
+    slider.value = data2.progress;
+
+    const volume = document.querySelector(".volume");
+
+    volume.value = data2.volume;
 
     const response3 = await fetch("https://api.ipify.org?format=json");
     const data3 = await response3.json();
     document.querySelector(".valueip").textContent = data3.ip;
+
+
 }
 
 
-setInterval(updateStats, 1000);
+setInterval(updateStats, 500);
 
 document.querySelector(".reboot").addEventListener("click", async () => {
 
@@ -37,6 +58,10 @@ document.querySelector(".reboot").addEventListener("click", async () => {
 
     const data = await res.json();
     console.log(data);
+});
+
+document.querySelector(".volume").addEventListener("change", function () {
+  console.log("Финальное значение:", slider.value);
 });
 
 document.querySelector(".suspend").addEventListener("click", async () => {
@@ -61,8 +86,43 @@ document.querySelector(".poweroff").addEventListener("click", async () => {
     const res = await fetch("http://10.42.0.1:8000/poweroff");
     const data = await res.json();
 
+    if(res.status == "Playing\n") {
+        document.querySelector(".btn-play").innerHTML =
+          '<i class="fas fa-pause" style="font-size: 40px; padding-right: 5px;"></i>';   } else {
+        document.querySelector(".btn-play").innerHTML =
+          '<i class="fas fa-play" style="font-size: 40px;"></i>';
+    }
+
     console.log(data.message);
 });
+
+document.querySelector(".btn-play").addEventListener("click", async () => {
+
+    const res = await fetch("http://10.42.0.1:8000/playpause");
+    console.log("STATUS:", res.status);
+
+    const data = await res.json();
+    console.log(data);
+});
+
+document.querySelector(".btn-next").addEventListener("click", async () => {
+
+    const res = await fetch("http://10.42.0.1:8000/next");
+    console.log("STATUS:", res.status);
+
+    const data = await res.json();
+    console.log(data);
+});
+
+document.querySelector(".btn-prev").addEventListener("click", async () => {
+
+    const res = await fetch("http://10.42.0.1:8000/previous");
+    console.log("STATUS:", res.status);
+
+    const data = await res.json();
+    console.log(data);
+});
+
 
 function toggleTheme() {
     document.body.classList.toggle("dark");
@@ -84,66 +144,9 @@ function toggleTheme() {
     );
 }
 
+
 window.onload = () => {
     if (localStorage.getItem("theme") === "dark") {
         document.body.classList.add("dark");
     }
 };
-
-
-const ctx = document.getElementById('myChart').getContext('2d');
-
-
-const chart = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: ['10:00','10:05','10:10','10:15','10:20','10:25','10:30','10:35','10:40','10:45','10:50','10:55','11:00'],
-        datasets: [
-            {
-                label: 'CPU',
-                data: [60, 65, 50, 70, 62, 55, 63, 58, 66, 60, 75, 62, 70],
-                borderColor: '#6c63ff',
-                tension: 0.4, // плавность линии
-                fill: false
-            },
-            {
-                label: 'RAM',
-                data: [30, 35, 33, 40, 36, 32, 35, 31, 38, 34, 42, 30, 35],
-                borderColor: '#2ecc71',
-                tension: 0.4,
-                fill: false
-            },
-            {
-                label: 'DISK',
-                data: [40, 45, 46, 42, 40, 35, 48, 42, 48, 44, 45, 49, 41],
-                borderColor: '#2485EE',
-                tension: 0.4,
-                fill: false
-            },
-            {
-                label: 'TEMP',
-                data: [55, 59, 54, 50, 51, 57, 52, 47, 46, 42, 40, 41, 40],
-                borderColor: '#EE8543',
-                tension: 0.4,
-                fill: false
-            }
-        ]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: {
-
-            }
-        },
-        scales: {
-            y: {
-                min: 0,
-                max: 100,
-                ticks: {
-                    callback: value => value + '%'
-                }
-            }
-        }
-    }
-});

@@ -67,7 +67,7 @@ body {
     gap: 5px;
 }
 
-.graph {
+.graph, .player-data {
     padding:10px;
     width:60%;
 }
@@ -107,7 +107,7 @@ body {
     align-items: center-start;
 }
 
-.cpu, .ram, .disk, .temp {
+.cpu, .ram, .disk, .temp, .player {
     display: flex;
     flex-direction: row;
     gap: 10px;
@@ -221,6 +221,22 @@ body {
     color: #EE8543;
 }
 
+.player-logo {
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-right: 7px;
+    padding-bottom:3px;
+    background: #DECCFF;
+    border-radius: 24px;
+    font-size: 100px;
+    display: flex;
+    color: #BC46EE;
+}
+
+.player {
+    display: flex;
+    align-items: center;
+}
 
 .cpudata, .ramdata, .diskdata, .tempdata {
     display: flex;
@@ -311,7 +327,6 @@ button:hover {
 .graph {
     display: flex;
     flex-direction: column;
-    gap:0px;
 }
 
 
@@ -331,4 +346,64 @@ button:hover {
     cursor: pointer;
     border-radius: 8px;
     font-size: 20px;
+}
+
+.player-data {
+  flex: 1;
+  gap:5px;
+  display: flex;
+  flex-direction: column;
+  gap:10px;
+}
+
+.slider-wrap, .player-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap:10px;
+}
+
+.volume {
+  accent-color: #BC46EE;
+  width: 50%;
+}
+
+.slider {
+  width: 100%;
+  accent-color: #BC46EE;
+}
+
+.btn-play {
+    padding-top: 5px;
+    padding-left: 12px;
+    padding-right: 7px;
+    padding-bottom:3px;
+    background: #DECCFF;
+    color: #BC46EE;
+    border-radius: 100px;
+}
+
+.btn-next {
+    padding-top: 5px;
+    padding-left: 12px;
+    padding-right: 11px;
+    padding-bottom:3px;
+    background: #DECCFF;
+    color: #BC46EE;
+    border-radius: 100px;
+}
+
+.btn-prev {
+    padding-top: 5px;
+    padding-left: 12px;
+    padding-right: 11px;
+    padding-bottom:3px;
+    background: #DECCFF;
+    color: #BC46EE;
+    border-radius: 100px;
+}
+
+.btn-prev:active,.btn-next:active,.btn-play:active  {
+  background-color: #BC46EE;
+  color: #CD57FF;
 }

@@ -2,4 +2,4 @@ __pycache__/
 .venv
 .idea
 key.pem
-sert.pem
+cert.pem
