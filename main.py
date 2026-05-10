@@ -15,7 +15,6 @@ import secrets
 from dotenv import load_dotenv
 import os
 
-
 load_dotenv("/home/master/PycharmProject0s/X-API/.env")
 
 security = HTTPBasic()
@@ -42,14 +41,12 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://10.42.0.1:8000",
-        "http://localhost:8000",
-        "http://127.0.0.1:8000"
     ],
     allow_credentials=True,
     allow_methods=["GET"],
     allow_headers=["*"],
 )
-# подключаем статические файлы
+
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.get("/main")
@@ -75,7 +72,7 @@ def suspend():
     }
 
 @app.get("/poweroff")
-def poweroff():
+def power_off():
     subprocess.run(["poweroff"])
     return {
         "message": "ok"
@@ -88,13 +85,12 @@ def click():
 def get_cpu_temp():
     temps = psutil.sensors_temperatures()
 
-    # 1. пробуем package
     for entries in temps.values():
         for e in entries:
             if "Package" in e.label:
                 return e.current
 
-    # 2. fallback: среднее по ядрам
+
     cores = [
         e.current
         for entries in temps.values()
@@ -129,23 +125,25 @@ def query(s):
 def metrics():
     boot_time = psutil.boot_time()
     uptime_seconds = int(time.time() - boot_time)
-    x1 =  str(query(['playerctl', 'position'])) * 100
-    x2 = ''
-    for u in x1:
+    
+    position_str =  str(query(['playerctl', 'position'])) * 100
+    position = ''
+    for u in position_str:
         if u == '\n':
             break
-        x2 += u
-    x2 = float(x2)
-    x3 =  str(query(['playerctl', 'metadata', '--format', '{{ mpris:length / 1000000 }}'])) * 100
-    x4 = ''
-    for u in x3:
+        position += u
+    position = float(position)
+    length_str =  str(query(['playerctl', 'metadata', '--format', '{{ mpris:length / 1000000 }}'])) * 100
+    
+    length = ''
+    for u in length_str:
         if u == '\n':
             break
-        x4 += u
-    x4 = float(x4)
-    print(x2 / x4 * 100)
-    x5 = str(query(['wpctl', 'get-volume', '@DEFAULT_AUDIO_SINK@']).split(' ')[1][:-1])
-    print(x5)
+        length += u
+    length = float(length)
+    print(position / length * 100)
+    voulme = str(query(['wpctl', 'get-volume', '@DEFAULT_AUDIO_SINK@']).split(' ')[1][:-1])
+    
     return {
         "hostname": socket.gethostname(),
         "os": platform.system(),
@@ -153,45 +151,14 @@ def metrics():
         "uptime": str(datetime.timedelta(seconds=uptime_seconds)),
         "track" : str(query(['playerctl', 'metadata', '--format', '{{artist}} - {{title}} | {{album}}'])),
         "status" : str(query(['playerctl', 'status'])),
-        "progress" : x2 / x4 * 100,
+        "progress" : position / length * 100,
         "position" : str(query(['playerctl', 'metadata', '--format', '{{ duration(position) }}'])),
         "length" : str(query([ 'playerctl', 'metadata', '--format', '{{ duration(mpris:length) }}'])),
-        "volume" : float(x5) * 100
+        "volume" : float(voulme) * 100
     }
 
 @app.get("/playpause")
 def play_pause():
-    status = subprocess.run(
-        ['playerctl', 'status'],
-        capture_output=True,
-        text=True
-    )
-    if status.stdout == "Playing\n":
-        status = subprocess.run(
-            ['playerctl', 'pause'],
-            capture_output=True,
-            text=True
-        )
-        return {
-            "status": "Paused"
-        }
-    else:
-        status = subprocess.run(
-            ['playerctl', 'play'],
-            capture_output=True,
-            text=True
-        )
-        return {
-            "status": "Playing\n"
-        }
-
-@app.get("/playpause")
-def play_pause():
-    status = subprocess.run(
-        ['playerctl', 'status'],
-        capture_output=True,
-        text=True
-    )
     status = subprocess.run(
         ['playerctl', 'play-pause'],
         capture_output=True,
@@ -241,6 +208,5 @@ if __name__ == "__main__":
             )
             break
         except Exception as e:
-            print(f"Ошибка запуска: {e}")
-            print("Повтор через 3 секунды...")
+            print(f"{e}")
             time.sleep(3)
