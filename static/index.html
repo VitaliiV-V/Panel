@@ -30,7 +30,7 @@
 
                     <div class="cpudata">
                         <i style="font-size: 20px;">CPU</i>
-                        <i class="cpuval" style="font-size: 20px;">Loading...</i>
+                        <strong><i class="cpuval" style="font-size: 20px;">Loading...</i></strong>
                     </div>
 
                 </div>
@@ -48,7 +48,7 @@
                     </div>
                     <div class="ramdata">
                         <i style="font-size: 20px;">RAM</i>
-                        <i class="ramval" style="font-size: 20px;">Loading...</i>
+                        <strong><i class="ramval" style="font-size: 20px;">Loading...</i></strong>
                     </div>
 
                 </div>
@@ -65,7 +65,7 @@
                     </div>
                     <div class="diskdata">
                         <i style="font-size: 20px;">DISK</i>
-                        <i class="diskval" style="font-size: 20px;">Loading...</i>
+                        <strong><i class="diskval" style="font-size: 20px;">Loading...</i></strong>
                     </div>
 
                 </div>
@@ -82,7 +82,7 @@
                     </div>
                     <div class="tempdata">
                         <i style="font-size: 20px;">TEMP</i>
-                        <i class="tempval" style="font-size: 20px;">Loading...</i>
+                        <strong><i class="tempval" style="font-size: 20px;">Loading...</i></strong>
                     </div>
                 </div>
                 <div class="tempbar">
@@ -111,7 +111,7 @@
                         <div class="player-buttons">
 
                             <button class="btn-prev">
-                                <i class="fas fa-step-backward" style="font-size: 40px;"></i>
+                                <i class="fas fa-step-backward" style="font-size: 25px;"></i>
                             </button>
 
                             <button class="btn-play">
@@ -119,13 +119,13 @@
                             </button>
 
                             <button class="btn-next">
-                                <i class="fas fa-step-forward " style="font-size: 40px;"></i>
+                                <i class="fas fa-step-forward " style="font-size: 25px;"></i>
                             </button>
 
                         </div>
                     </div>
                 </div>
-
+                <i>&nbsp;</i>
                 <div class="slider-wrap">
                     <i class="fa fa-volume-up"></i>
                     <input type="range" min="0" max="100" value="0" class="volume" id="volume">
@@ -137,17 +137,20 @@
             <div class="power">
                 <strong><i style="font-size: 20px;">System Management</i></strong>
                 <div class="btn-grid">
-                    <button class="reboot"><i class="fa-solid fa-rotate-right"></i> Reboot</button>
-                    <button class="poweroff"><i class="fa-solid fa-power-off"></i> Power Off</button>
-                    <button class="suspend"><i class="fa-solid fa-moon"></i> Suspend</button>
-                    <button class="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+                    <button class="reboot"><i class="fa-solid fa-rotate-right"
+                            style="color: #5d36c9;"></i><br>Reboot</button>
+                    <button class="poweroff"><i class="fa-solid fa-power-off" style="color: #5d36c9;"></i><br> Power
+                        Off</button>
+                    <button class="suspend"><i class="far fa-moon" style="color: #5d36c9;"></i><br> Suspend</button>
+                    <button class="logout"><i class="fa-solid fa-right-from-bracket" style="color: #5d36c9;"></i><br>
+                        Logout</button>
                 </div>
             </div>
         </div>
 
         <div class="systeminfo">
             <div class="info">
-                <strong><i style="font-size: 20px;">System Information</i></strong>
+                <strong><i style="font-size: 20px;">System Information</i></strong><br>
                 <div class="host">
                     <span class="hostname"><i class="fas fa-laptop"></i>&nbsp;Hostname</span>
                     <i class="valuehost">Loading...</i>

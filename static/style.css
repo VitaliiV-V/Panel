@@ -86,10 +86,18 @@ body {
     width: 70%;
 }
 
-.player,
+.player {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
 .player-data {
     width: 100%;
-
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
 }
 
 .power {
@@ -176,7 +184,7 @@ body {
 .diskbar2,
 .tempbar2 {
     background: #685CCC;
-    border-radius: 12px;
+    border-radius: 12px 0px 0px 12px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     align-items: flex-start;
     height: var(--bar-height);
@@ -202,9 +210,13 @@ body {
 .ramlogo,
 .disklogo,
 .templogo {
+    padding-top: 13px;
+    padding-left: 13px;
+    padding-right: 13px;
+    padding-bottom: 13px;
     background: #ddddff7d;
     border-radius: 12px;
-    font-size: 60px;
+    font-size: 40px;
     display: flex;
     color: #685CCC;
 }
@@ -222,15 +234,15 @@ body {
 }
 
 .player-logo {
-    padding-top: 5px;
-    padding-left: 5px;
-    padding-right: 7px;
-    padding-bottom: 3px;
-    background: #deccff8e;
-    border-radius: 24px;
+    padding-top: 35px;
+    padding-left: 33px;
+    padding-right: 39px;
+    padding-bottom: 33px;
+    background: #d9ccffc8;
+    border-radius: 12px;
     font-size: 100px;
     display: flex;
-    color: #bc46ee;
+    color: #5d36c9;
 }
 
 .player {
@@ -264,7 +276,9 @@ body {
 
 button {
     font-size: 18px;
-    background: var(--bg2);
+    background: var(--bg);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+
     color: var(--fg);
     border: none;
     cursor: pointer;
@@ -373,7 +387,7 @@ button:hover {
 }
 
 .volume {
-    accent-color: #BC46EE;
+    accent-color: #5d36c9;
     width: 50%;
 }
 
@@ -385,7 +399,7 @@ button:hover {
 }
 
 .slider {
-    accent-color: #BC46EE;
+    accent-color: #5d36c9;
     width: 100%;
 }
 
@@ -394,7 +408,7 @@ button:hover {
     padding-left: 12px;
     padding-right: 7px;
     padding-bottom: 3px;
-    color: #BC46EE;
+    color: #5d36c9;
     border-radius: 100px;
 }
 
@@ -403,8 +417,8 @@ button:hover {
     padding-left: 12px;
     padding-right: 11px;
     padding-bottom: 3px;
-    color: #BC46EE;
     border-radius: 100px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.0);
 }
 
 .btn-prev {
@@ -412,13 +426,13 @@ button:hover {
     padding-left: 12px;
     padding-right: 11px;
     padding-bottom: 3px;
-    color: #BC46EE;
     border-radius: 100px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.0);
 }
 
 .btn-prev:active,
 .btn-next:active,
 .btn-play:active {
-    background-color: #BC46EE;
-    color: #CD57FF;
+    background-color: #7c767e;
+    color: #000000;
 }
