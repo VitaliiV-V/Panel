@@ -214,23 +214,27 @@ body {
     padding-left: 13px;
     padding-right: 13px;
     padding-bottom: 13px;
-    background: #ddddff7d;
+    background: #ddddff4d;
     border-radius: 12px;
     font-size: 40px;
     display: flex;
     color: #685CCC;
 }
 
+
 .ramlogo {
     color: #0FC183;
+    background: #dbfae54d;
 }
 
 .disklogo {
     color: #2485EE;
+    background: #acdfff4d;
 }
 
 .templogo {
     color: #EE8543;
+    background: #ffe2c44d;
 }
 
 .player-logo {
