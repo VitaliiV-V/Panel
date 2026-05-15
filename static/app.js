@@ -1,17 +1,15 @@
-async function updateStats() {
-    const response = await fetch("http://10.42.0.1:8000/metrics");
-    const data = await response.json();
-    document.querySelector(".cpuval").textContent = data.cpu + "%";
-    document.querySelector(".cpubar2").style.width = data.cpu + "%";
-    document.querySelector(".ramval").textContent = data.ram + "%";
-    document.querySelector(".rambar2").style.width = data.ram + "%";
-    document.querySelector(".diskval").textContent = data.disk + "%";
-    document.querySelector(".diskbar2").style.width = data.disk + "%";
-    document.querySelector(".tempval").textContent = data.temp + "°C";
-    document.querySelector(".tempbar2").style.width = data.temp + "%";
+async function updateStats() { 
 
     const response2 = await fetch("http://10.42.0.1:8000/info");
     const data2 = await response2.json();
+    document.querySelector(".cpuval").textContent = data2.cpu + "%";
+    document.querySelector(".cpubar2").style.width = data2.cpu + "%";
+    document.querySelector(".ramval").textContent = data2.ram + "%";
+    document.querySelector(".rambar2").style.width = data2.ram + "%";
+    document.querySelector(".diskval").textContent = data2.disk + "%";
+    document.querySelector(".diskbar2").style.width = data2.disk + "%";
+    document.querySelector(".tempval").textContent = data2.temp + "°C";
+    document.querySelector(".tempbar2").style.width = data2.temp + "%";
     document.querySelector(".valuehost").textContent = data2.hostname;
     document.querySelector(".valueos").textContent = data2.os;
     document.querySelector(".valuekernel").textContent = data2.kernel;
@@ -20,7 +18,6 @@ async function updateStats() {
     document.querySelector(".position").textContent = data2.position;
     document.querySelector(".length").textContent = data2.length;
     document.querySelector(".vol").textContent = data2.volume + '%';
-
 
     if(data2.status == "Playing\n") {
         document.querySelector(".btn-play").innerHTML =
@@ -46,36 +43,41 @@ async function updateStats() {
 
 setInterval(updateStats, 500);
 
+document.querySelector(".volume").addEventListener("change", function () {
+  console.log("Финальное значение:", slider.value);
+});
+
 document.querySelector(".reboot").addEventListener("click", async () => {
 
     const ok = confirm("Are you sure you want to reboot your computer?");
     if (!ok) return;
 
-    console.log("CLICKED REBOOT");
-
-    const res = await fetch("http://10.42.0.1:8000/reboot");
-    console.log("STATUS:", res.status);
-
-    const data = await res.json();
-    console.log(data);
+    const response = await fetch("http://10.42.0.1:8000/exec", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            "command": "reboot",
+        })
+    })
 });
 
-document.querySelector(".volume").addEventListener("change", function () {
-  console.log("Финальное значение:", slider.value);
-});
 
 document.querySelector(".suspend").addEventListener("click", async () => {
 
     const ok = confirm("Are you sure you want to suspend your computer?");
     if (!ok) return;
 
-    console.log("CLICKED SUSPEND");
-
-    const res = await fetch("http://10.42.0.1:8000/suspend");
-    console.log("STATUS:", res.status);
-
-    const data = await res.json();
-    console.log(data);
+    const response = await fetch("http://10.42.0.1:8000/exec", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            "command": "suspend",
+        })
+    })
 });
 
 document.querySelector(".poweroff").addEventListener("click", async () => {
@@ -83,44 +85,52 @@ document.querySelector(".poweroff").addEventListener("click", async () => {
 
     if (!ok) return;
 
-    const res = await fetch("http://10.42.0.1:8000/poweroff");
-    const data = await res.json();
+    const response = await fetch("http://10.42.0.1:8000/exec", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            "command": "poweroff",
+        })
+    })
 
-    if(res.status == "Playing\n") {
-        document.querySelector(".btn-play").innerHTML =
-          '<i class="fas fa-pause" style="font-size: 40px; padding-right: 5px;"></i>';   } else {
-        document.querySelector(".btn-play").innerHTML =
-          '<i class="fas fa-play" style="font-size: 40px;"></i>';
-    }
-
-    console.log(data.message);
 });
 
 document.querySelector(".btn-play").addEventListener("click", async () => {
-
-    const res = await fetch("http://10.42.0.1:8000/playpause");
-    console.log("STATUS:", res.status);
-
-    const data = await res.json();
-    console.log(data);
+    const response = await fetch("http://10.42.0.1:8000/exec", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            "command": "playpause",
+        })
+    })
 });
 
 document.querySelector(".btn-next").addEventListener("click", async () => {
-
-    const res = await fetch("http://10.42.0.1:8000/next");
-    console.log("STATUS:", res.status);
-
-    const data = await res.json();
-    console.log(data);
+    const response = await fetch("http://10.42.0.1:8000/exec", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            "command": "next",
+        })
+    })
 });
 
 document.querySelector(".btn-prev").addEventListener("click", async () => {
-
-    const res = await fetch("http://10.42.0.1:8000/previous");
-    console.log("STATUS:", res.status);
-
-    const data = await res.json();
-    console.log(data);
+    const response = await fetch("http://10.42.0.1:8000/exec", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            "command": "previous",
+        })
+    })
 });
 
 

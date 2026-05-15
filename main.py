@@ -11,6 +11,7 @@ from fastapi.responses import RedirectResponse
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 import subprocess
+from fastapi import Request
 import secrets
 from dotenv import load_dotenv
 import os
@@ -39,11 +40,9 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://10.42.0.1:8000",
-    ],
+    allow_origins=["*"],
     allow_credentials=True,
-    allow_methods=["GET"],
+    allow_methods=["*"],
     allow_headers=["*"],
 )
 
@@ -57,35 +56,12 @@ def index(auth: bool = Depends(check_auth)):
 def index():
     return RedirectResponse(url="/main")
 
-@app.get("/reboot")
-def reboot():
-    subprocess.run(["reboot"])
-    return {
-        "message": "ok"
-    }
-
-@app.get("/suspend")
-def suspend():
-    subprocess.run(["systemctl", "suspend"])
-    return {
-        "message": "ok"
-    }
-
-@app.get("/poweroff")
-def power_off():
-    subprocess.run(["poweroff"])
-    return {
-        "message": "ok"
-    }
-
 def get_cpu_temp():
     temps = psutil.sensors_temperatures()
-
     for entries in temps.values():
         for e in entries:
             if "Package" in e.label:
                 return e.current
-
 
     cores = [
         e.current
@@ -99,37 +75,20 @@ def get_cpu_temp():
 
     return None
 
-@app.get("/metrics")
-def metrics():
-    return {
-        "cpu": psutil.cpu_percent(interval=0.5),
-        "temp": get_cpu_temp(),
-        "ram": psutil.virtual_memory().percent,
-        "CHARGE": psutil.sensors_battery().percent,
-        "disk" : psutil.disk_usage('/').percent
-    }
-
-def query(s):
-    penis = subprocess.run(
-        s,
-        capture_output=True,
-        text=True
-    )
-    return penis.stdout
-
 @app.get("/info")
-def metrics():
+def info():
     boot_time = psutil.boot_time()
     uptime_seconds = int(time.time() - boot_time)
     
-    position_str =  str(query(['playerctl', 'position'])) * 100
+    position_str =  str(subprocess.run(['playerctl', 'position'], capture_output=True, text=True).stdout) * 100
     position = ''
     for u in position_str:
         if u == '\n':
             break
         position += u
     position = float(position)
-    length_str =  str(query(['playerctl', 'metadata', '--format', '{{ mpris:length / 1000000 }}'])) * 100
+
+    length_str =  str(subprocess.run(['playerctl', 'metadata', '--format', '{{ mpris:length / 1000000 }}'], capture_output=True, text=True).stdout) * 100
     
     length = ''
     for u in length_str:
@@ -137,59 +96,45 @@ def metrics():
             break
         length += u
     length = float(length)
-    print(position / length * 100)
-    voulme = str(query(['wpctl', 'get-volume', '@DEFAULT_AUDIO_SINK@']).split(' ')[1][:-1])
+
+    voulme = str(subprocess.run(['wpctl', 'get-volume', '@DEFAULT_AUDIO_SINK@'], capture_output=True, text=True).stdout.split(' ')[1][:-1])
     
     return {
+        "cpu": psutil.cpu_percent(interval=0.5),
+        "temp": get_cpu_temp(),
+        "ram": psutil.virtual_memory().percent,
+        "CHARGE": psutil.sensors_battery().percent,
+        "disk" : psutil.disk_usage('/').percent,
         "hostname": socket.gethostname(),
         "os": platform.system(),
         "kernel": platform.release(),
         "uptime": str(datetime.timedelta(seconds=uptime_seconds)),
-        "track" : str(query(['playerctl', 'metadata', '--format', '{{artist}} - {{title}} | {{album}}'])),
-        "status" : str(query(['playerctl', 'status'])),
-        "progress" : position / length * 100,
-        "position" : str(query(['playerctl', 'metadata', '--format', '{{ duration(position) }}'])),
-        "length" : str(query([ 'playerctl', 'metadata', '--format', '{{ duration(mpris:length) }}'])),
+        "track" : str(subprocess.run(['playerctl', 'metadata', '--format', '{{artist}} - {{title}} | {{album}}'], capture_output=True, text=True).stdout),
+        "status" : str(subprocess.run(['playerctl', 'status'], capture_output=True, text=True).stdout), 
+        "progress" : position / length * 100, 
+        "position" : str(subprocess.run(['playerctl', 'metadata', '--format', '{{ duration(position) }}'], capture_output=True, text=True).stdout),
+        "length" : str(subprocess.run([ 'playerctl', 'metadata', '--format', '{{ duration(mpris:length) }}'], capture_output=True, text=True).stdout),
         "volume" : float(voulme) * 100
     }
 
-@app.get("/playpause")
-def play_pause():
-    status = subprocess.run(
-        ['playerctl', 'play-pause'],
-        capture_output=True,
-        text=True
-    )
-    if status.stdout == "Playing\n":
-        return {
-            "status": "Paused"
-        }
-    else:
-        return {
-            "status": "Playing\n"
-        }
-
-
-@app.get("/next")
-def next():
-    status = subprocess.run(
-        ['playerctl', 'next'],
-        capture_output=True,
-        text=True
-    )
+@app.post("/exec")
+async def exec(request: Request):
+    data = await request.json()
+    print(data["command"])
+    if data["command"] == "poweroff":
+        subprocess.run(["poweroff"])
+    elif data["command"] == "reboot":
+        subprocess.run(["reboot"])
+    elif data["command"] == "suspend":        
+        subprocess.run(["systemctl", "suspend"])
+    elif data["command"] == "playpause":
+        subprocess.run(['playerctl', 'play-pause'], capture_output=True, text=True)
+    elif data["command"] == "next":
+        subprocess.run(['playerctl', 'next'], capture_output=True, text=True)
+    elif data["command"] == "prev":
+        subprocess.run(['playerctl', 'previous'], capture_output=True, text=True)
     return {
-        "message": "ok"
-    }
-
-@app.get("/previous")
-def previous():
-    status = subprocess.run(
-        ['playerctl', 'previous'],
-        capture_output=True,
-        text=True
-    )
-    return {
-        "message": "ok"
+        "message" : "ok"
     }
 
 
