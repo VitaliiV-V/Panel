@@ -1,7 +1,8 @@
-html, body {
+html,
+body {
     height: 100%;
     width: 100%;
-    margin: 0;
+    margin: 5px;
     display: flex;
     align-items: stretch;
     min-height: 100dvh;
@@ -10,6 +11,7 @@ html, body {
     --bg3: #e0e0e0;
     --bg4: #e5e7eb;
     --fg: #000;
+    --bar-height: 10px;
 }
 
 
@@ -20,65 +22,79 @@ body {
     display: flex;
     padding: 5px;
     box-sizing: border-box;
-    gap:5px;
+    gap: 5px;
 }
 
 .card1 {
     padding-left: 10px;
     text-align: left;
     border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     width: 20%;
+    height: 100vh;
 }
 
-.card2 {
+.main {
     padding-left: 10px;
-    padding-right: 10px;
-    text-align: left;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    gap: 5px;
     width: 80%;
+    border-radius: 12px;
+    flex-direction: column;
+    text-align: left;
+    border-radius: 0px;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+    height: 100vh;
 }
 
 .monitor {
     text-align: left;
     border-radius: 0px;
-    height: 20%;
     display: flex;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     gap: 5px;
+    flex: 1;
 }
 
-
-.card3,.card4 {
+.commands {
     text-align: left;
-    height: 35%;
     display: flex;
     gap: 5px;
+    flex: 3;
 }
 
-.graph,.power, .info {
-    padding:5px;
+.systeminfo {
+    text-align: left;
+    display: flex;
+    gap: 5px;
+    flex: 3;
+}
+
+.graph,
+.power,
+.info {
+    padding: 5px;
     text-align: left;
     border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     height: 90%;
     display: flex;
     gap: 5px;
 }
 
-.graph, .player-data {
-    padding:10px;
-    width:60%;
+.graph,
+.player-data {
+    padding: 10px;
+    width: 60%;
 }
 
 .power {
-    padding-left:15px;
-    padding-right:15px;
-    padding-top:10px;
-    padding-bottom:10px;
-    width:45%;
-    gap:10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 45%;
+    gap: 10px;
     display: flex;
     flex-direction: column;
 }
@@ -89,36 +105,47 @@ body {
     gap: 10px;
 }
 
-.cpubox, .rambox, .diskbox, .tempbox {
-    width: fit-content;
-    height: fit-content;
+.cpubox,
+.rambox,
+.diskbox,
+.tempbox {
+
     padding-top: 10px;
     padding-left: 10px;
     padding-right: 10px;
     padding-bottom: 10px;
     border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     width: 25%;
     display: flex;
+    flex: 1;
     flex-direction: column;
     gap: 10px;
 
     align-items: center-start;
 }
 
-.cpu, .ram, .disk, .temp, .player {
+.cpu,
+.ram,
+.disk,
+.temp,
+.player {
+    width: fit-content;
+    height: fit-content;
     display: flex;
     flex-direction: row;
     gap: 10px;
-    align-items: flex-start;
     margin-bottom: 1%;
 }
 
-.cpubar, .rambar, .diskbar, .tempbar {
+.cpubar,
+.rambar,
+.diskbar,
+.tempbar {
     border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     align-items: flex-start;
+    height: var(--bar-height);
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -141,13 +168,16 @@ body {
     background: #ffe2c4;
 }
 
-.cpubar2 {
+.cpubar2,
+.rambar2,
+.diskbar2,
+.tempbar2 {
     background: #685CCC;
-    padding:10px;
     border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     align-items: flex-start;
-    width: 40%;
+    height: var(--bar-height);
+    width: 100%;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -155,69 +185,36 @@ body {
 
 .rambar2 {
     background: #0FC183;
-    padding:10px;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    align-items: flex-start;
-    width: 40%;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
 }
 
 .diskbar2 {
     background: #2485EE;
-    padding:10px;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    align-items: flex-start;
-    width: 40%;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
 }
 
 .tempbar2 {
     background: #EE8543;
-    padding:10px;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    align-items: flex-start;
-    width: 40%;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
 }
 
-.cpulogo {
-    background:#ddddff;
+.cpulogo,
+.ramlogo,
+.disklogo,
+.templogo {
+    background: #ddddff7d;
     border-radius: 12px;
-    font-size: 80px;
+    font-size: 60px;
     display: flex;
     color: #685CCC;
 }
 
 .ramlogo {
-    background: #dbfae5;
-    border-radius: 12px;
-    font-size: 80px;
-    display: flex;
     color: #0FC183;
 }
 
 .disklogo {
-    background: #acdfff;
-    border-radius: 12px;
-    font-size: 80px;
-    display: flex;
     color: #2485EE;
 }
 
 .templogo {
-    background: #ffe2c4;
-    border-radius: 12px;
-    font-size: 80px;
-    display: flex;
     color: #EE8543;
 }
 
@@ -225,7 +222,7 @@ body {
     padding-top: 5px;
     padding-left: 5px;
     padding-right: 7px;
-    padding-bottom:3px;
+    padding-bottom: 3px;
     background: #DECCFF;
     border-radius: 24px;
     font-size: 100px;
@@ -238,7 +235,10 @@ body {
     align-items: center;
 }
 
-.cpudata, .ramdata, .diskdata, .tempdata {
+.cpudata,
+.ramdata,
+.diskdata,
+.tempdata {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -286,25 +286,29 @@ button:hover {
 }
 
 .host {
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 97%;
-  padding: 2px 16px;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 97%;
+    padding: 2px 16px;
 }
 
 .host:not(:last-child)::after {
-  content: "";
-  position: absolute;
-  left: 16px;
-  right: 16px;
-  bottom: 0;
-  height: 1px;
-  background: var(--bg4);
+    content: "";
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    bottom: 0;
+    height: 1px;
+    background: var(--bg4);
 }
 
-.hostname, .OS, .Kernel, .Up, .IP {
+.hostname,
+.OS,
+.Kernel,
+.Up,
+.IP {
     color: #505050;
 }
 
@@ -349,36 +353,36 @@ button:hover {
 }
 
 .player-data {
-  flex: 1;
-  gap:5px;
-  display: flex;
-  flex-direction: column;
-  gap:10px;
+    flex: 1;
+    gap: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
-.slider-wrap, .player-buttons {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap:10px;
+.slider-wrap,
+.player-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
 }
 
 .volume {
-  accent-color: #BC46EE;
-  width: 50%;
+    accent-color: #BC46EE;
+    width: 50%;
 }
 
 .slider {
-  width: 100%;
-  accent-color: #BC46EE;
+    width: 100%;
+    accent-color: #BC46EE;
 }
 
 .btn-play {
     padding-top: 5px;
     padding-left: 12px;
     padding-right: 7px;
-    padding-bottom:3px;
-    background: #DECCFF;
+    padding-bottom: 3px;
     color: #BC46EE;
     border-radius: 100px;
 }
@@ -387,8 +391,7 @@ button:hover {
     padding-top: 5px;
     padding-left: 12px;
     padding-right: 11px;
-    padding-bottom:3px;
-    background: #DECCFF;
+    padding-bottom: 3px;
     color: #BC46EE;
     border-radius: 100px;
 }
@@ -397,13 +400,14 @@ button:hover {
     padding-top: 5px;
     padding-left: 12px;
     padding-right: 11px;
-    padding-bottom:3px;
-    background: #DECCFF;
+    padding-bottom: 3px;
     color: #BC46EE;
     border-radius: 100px;
 }
 
-.btn-prev:active,.btn-next:active,.btn-play:active  {
-  background-color: #BC46EE;
-  color: #CD57FF;
+.btn-prev:active,
+.btn-next:active,
+.btn-play:active {
+    background-color: #BC46EE;
+    color: #CD57FF;
 }
