@@ -223,11 +223,11 @@ body {
     padding-left: 5px;
     padding-right: 7px;
     padding-bottom: 3px;
-    background: #DECCFF;
+    background: #deccff8e;
     border-radius: 24px;
     font-size: 100px;
     display: flex;
-    color: #BC46EE;
+    color: #bc46ee;
 }
 
 .player {
