@@ -81,10 +81,15 @@ body {
     gap: 5px;
 }
 
-.graph,
-.player-data {
+.graph {
     padding: 10px;
-    width: 60%;
+    width: 70%;
+}
+
+.player,
+.player-data {
+    width: 100%;
+
 }
 
 .power {
@@ -127,8 +132,7 @@ body {
 .cpu,
 .ram,
 .disk,
-.temp,
-.player {
+.temp {
     width: fit-content;
     height: fit-content;
     display: flex;
@@ -365,6 +369,7 @@ button:hover {
     justify-content: center;
     align-items: center;
     gap: 10px;
+    width: 100%;
 }
 
 .volume {
@@ -372,9 +377,16 @@ button:hover {
     width: 50%;
 }
 
+.position,
+.length {
+    flex-shrink: 0;
+    width: 50px;
+    text-align: center;
+}
+
 .slider {
-    width: 100%;
     accent-color: #BC46EE;
+    width: 100%;
 }
 
 .btn-play {
