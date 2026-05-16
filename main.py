@@ -80,22 +80,28 @@ def info():
     boot_time = psutil.boot_time()
     uptime_seconds = int(time.time() - boot_time)
     
-    position_str =  str(subprocess.run(['playerctl', 'position'], capture_output=True, text=True).stdout) * 100
+    position_str =  str(subprocess.run(['playerctl', 'position'], capture_output=True, text=True).stdout) * 100    
     position = ''
-    for u in position_str:
-        if u == '\n':
-            break
-        position += u
-    position = float(position)
+    try:
+        for u in position_str:
+            if u == '\n':
+                break
+            position += u
+        position = float(position)
+    except: 
+        position = 0
 
     length_str =  str(subprocess.run(['playerctl', 'metadata', '--format', '{{ mpris:length / 1000000 }}'], capture_output=True, text=True).stdout) * 100
     
-    length = ''
-    for u in length_str:
-        if u == '\n':
-            break
-        length += u
-    length = float(length)
+    length = ''    
+    try:
+        for u in length_str:
+            if u == '\n':
+                break
+            length += u
+        length = float(length)
+    except:
+        length = 1
 
     voulme = str(subprocess.run(['wpctl', 'get-volume', '@DEFAULT_AUDIO_SINK@'], capture_output=True, text=True).stdout.split(' ')[1][:-1])
     
