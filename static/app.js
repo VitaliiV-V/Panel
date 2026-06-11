@@ -97,6 +97,24 @@ document.querySelector(".poweroff").addEventListener("click", async () => {
 
 });
 
+document.querySelector(".lock").addEventListener("click", async () => {
+
+    const ok = confirm("Are you sure you want to lock your computer?");
+    if (!ok) return;
+
+    const response = await fetch("http://10.42.0.1:8000/exec", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            "command": "lock",
+        })
+    })
+});
+
+
+
 document.querySelector(".btn-play").addEventListener("click", async () => {
     const response = await fetch("http://10.42.0.1:8000/exec", {
         method: "POST",

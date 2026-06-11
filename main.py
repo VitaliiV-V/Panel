@@ -133,6 +133,8 @@ async def exec(request: Request):
         subprocess.run(["reboot"])
     elif data["command"] == "suspend":        
         subprocess.run(["systemctl", "suspend"])
+    elif data["command"] == "lock":
+        subprocess.run(["hyprlock"])
     elif data["command"] == "playpause":
         subprocess.run(['playerctl', 'play-pause'], capture_output=True, text=True)
     elif data["command"] == "next":
